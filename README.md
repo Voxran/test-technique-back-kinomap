@@ -12,14 +12,14 @@ Vous serez donc en charge de prendre la relève de l'agence et de réaliser les 
 
 ## Backlog
 
-- [ ] Installer une base SQLite
-- [ ] Créer une migration
-  - [ ] Créer une table `activities` contenant : 
+- [x] Installer une base SQLite
+- [x] Créer une migration
+  - [x] Créer une table `activities` contenant : 
     - [x] un ID
     - [x] le nom de l'activité
     - [x] sa description
     - [x] la durée de l'activité (format 12:54:32)
-    - [ ] date de création et d'édition.
+    - [x] date de création et d'édition.
   - [x] Créer une table `users` contenant :
     - [x] un ID
     - [x] un nom
@@ -29,17 +29,17 @@ Vous serez donc en charge de prendre la relève de l'agence et de réaliser les 
     - [x] l'ID de l'utilisateur
     - [x] la seconde à laquelle la capture a été faite (instant T) 
     - [x] la vitesse de l'utilisateur a l'instant T
-  - [ ] Créer une seed permettant de remplir les 3 tables avec de la fausse data
-  - [ ] Créer les routes suivantes : 
-    - [ ] `GET /users` // liste tous les utilisateurs (paginé) 
-    - [ ] `GET /users/:id` // récupère un utilisateur
-    - [ ] `GET /activities` // liste toutes les activités (paginé) 
-    - [ ] `GET /activities/:id` // récupère une activité
-    - [ ] `GET /users/:id/activities/:id` // récupère la performance de l'utilisateur
-      - [ ] Pour cette route, tous les points de vitesse doivent être disponibles, en plus de la vitesse moyenne
-  - [ ] Besoin ponctuel :
+  - [x] Créer une seed permettant de remplir les 3 tables avec de la fausse data
+  - [x] Créer les routes suivantes : 
+    - [x] `GET /users` // liste tous les utilisateurs (paginé) 
+    - [x] `GET /users/:id` // récupère un utilisateur
+    - [x] `GET /activities` // liste toutes les activités (paginé) 
+    - [x] `GET /activities/:id` // récupère une activité
+    - [x] `GET /users/:id/activities/:id` // récupère la performance de l'utilisateur
+      - [x] Pour cette route, tous les points de vitesse doivent être disponibles, en plus de la vitesse moyenne
+  - [x] Besoin ponctuel :
     - [x] On aimerait une commande pour compter le nombre de mots dans un fichier texte
-    - [ ] La commande doit être rapide
+    - [x] La commande doit être rapide
 
 ## Modalité du rendu
 

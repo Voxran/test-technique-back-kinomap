@@ -18,7 +18,7 @@ class MyCommand extends Command
      *
      * @var string
      */
-    protected $description = 'todo: write the description';
+    protected $description = 'Compte puis trie les occurences de mots dans un fichier texte';
 
     /**
      * Execute the console command.
@@ -28,56 +28,50 @@ class MyCommand extends Command
         $allTheText = file_get_contents(dirname(__FILE__) . "/../../../resources/my_text.txt");
         $lines = explode("\n", $allTheText);
         $words = $lineWords = [];
-        for ($i = 0; $i < count($lines); $i++) {
-            $line = $lines[$i];
-            $lineWords[] = explode(" ", $line);
+        
+        $numberOfLines = count($lines);
+        for ($i = 0; $i < $numberOfLines; $i++) {
+            $lineWords[] = explode(" ", $lines[$i]);
         }
-        for ($j = 0; $j < count($lineWords); $j++) {
+
+        $numberOfLineWords = count($lineWords);
+        for ($j = 0; $j < $numberOfLineWords; $j++) {
             $line = $lineWords[$j];
-            $wordsToAdd = [];
             foreach ($line as $word) {
-                $wordsToAdd = array_merge($wordsToAdd, [$word]);
-                if (count($wordsToAdd) === 10) {
-                    $words = array_merge($words, [...$wordsToAdd]);
-                    $wordsToAdd = [];
-                }
-            }
-            if (count($wordsToAdd) !== 0) {
-                $words = array_merge($words, [...$wordsToAdd]);
+                $words[] = $word;
             }
         }
+
+        $numberOfWords = count($words);
+        // Remove special chars
         foreach (str_split(",.?;!:") as $char) {
-            for ($k = 0; $k < count($words); $k++) {
+            for ($k = 0; $k < $numberOfWords; $k++) {
                 $words[$k] = strtolower($words[$k]);
                 $words[$k] = str_replace($char, "", $words[$k]);
-                if ($k > count($words)) {
-                    break;
-                }
+                // Can unset empty word here but need to loop through array with another method
             }
         }
-        unset($word); // todo: don't remove
+
+        // unset($word); // todo: don't remove // I did.
+
         foreach ($words as $i => $word) {
             if (empty($word)) {
-                if (strlen($word) == 0) {
-                    unset($words[$i]);
-                }
                 unset($words[$i]);
             }
         }
-        $numberOfWords = count($words);
 
         $classement = [];
+        // Count each occurencies
         foreach ($words as $word) {
             if (!isset($classement[$word])) {
                 $classement[$word] = 1;
             } else {
-                if (is_int($classement[$word]) and $classement[$word] > 0) {
-                    $count = $classement[$word];
-                    $count++;
-                    $classement[$word] = $count;
-                }
+                $classement[$word]++;
             }
         }
+
+        // Sort by value (count), DESC
+        arsort($classement);
 
         $newClassement = [];
         foreach ($classement as $word => $count) {
@@ -86,54 +80,15 @@ class MyCommand extends Command
                 "count" => $count,
             ];
         }
+        // Removed "break after 10 elements" to display everything
 
-        $start = 0;
+        // Display it nicely
         foreach ($newClassement as $position => $wordData) {
-            $start++;
             $mot = $wordData["word"];
             $nombre = $wordData["count"];
-
             $thePosition = $position + 1;
+
             echo "$thePosition: $mot avec $nombre\n";
-
-            if ($start === 10) {
-                break;
-            }
         }
-        $this->sort($newClassement, 0, count($newClassement) - 1);
-        $classementDansLOrdre = array_reverse($newClassement);
-
-        $start = 0;
-        foreach ($classementDansLOrdre as $position => $wordData) {
-            $start++;
-            $mot = $wordData["word"];
-            $nombre = $wordData["count"];
-
-            $thePosition = $position + 1;
-            echo "$thePosition: $mot avec $nombre\n";
-
-            if ($start === 10) {
-                break;
-            }
-        }
-    }
-
-    public function sort(&$array, $i, $j)
-    {
-        if ($i >= $j) {
-            return;
-        }
-
-        $m = intval(($i + $j) / 2);
-        $this->sort($array, $i, $m);
-        $this->sort($array, $m + 1, $j);
-
-        if ($array[$j]["count"] < $array[$m]["count"]) {
-            $tmp = $array[$j];
-            $array[$j] = $array[$m];
-            $array[$m] = $tmp;
-        }
-
-        $this->sort($array, $i, $j - 1);
     }
 }
